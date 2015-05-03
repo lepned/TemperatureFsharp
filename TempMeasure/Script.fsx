@@ -10,10 +10,10 @@ let avg = year |> Array.map (fun t -> t.Average)
 let min = year |> Array.map (fun t -> t.Min)
 let max = year |> Array.map (fun t -> t.Max)
 
-let list = 
-    [| avg, "Average"
-       min, "Min"
-       max, "Max" |]
+let getData data = 
+    [| data |> Array.map (fun (t : Types.Stat) -> t.Average), "Average"
+       data |> Array.map (fun t -> t.Min), "Min"
+       data |> Array.map (fun t -> t.Max), "Max" |]
 
 Charting.chartLine "Daily temperatures" "Days" "Temp" "Type" avg
-Charting.chartList "Daily temperatures" "Days" "Temp" list
+Charting.chartList "Daily temperatures" "Days" "Temp" (getData hours)
