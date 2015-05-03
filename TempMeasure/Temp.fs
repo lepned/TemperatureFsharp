@@ -16,51 +16,22 @@ module Statistikk =
     open Types
     open Data
     
-    let Dayaverage day = temps.[*, day] |> Array.average
-    let Daymin day = temps.[*, day] |> Array.min
-    let Daymax day = temps.[*, day] |> Array.max
-    let Yearaverage time = temps.[time, *] |> Array.average
-    let Yearmin time = temps.[time, *] |> Array.min
-    let Yearmax time = temps.[time, *] |> Array.max
+    let dayaverage day = temps.[*, day] |> Array.average
+    let daymin day = temps.[*, day] |> Array.min
+    let daymax day = temps.[*, day] |> Array.max
+    let yearaverage time = temps.[time, *] |> Array.average
+    let yearmin time = temps.[time, *] |> Array.min
+    let yearmax time = temps.[time, *] |> Array.max
     
     let createDayStat = 
-        [| for day = 0 to (temps.[*, 0].Length - 1) do
-               yield { Min = Daymin day
-                       Max = Daymax day
-                       Average = Dayaverage day } |]
+        [| for day = 0 to Array2D.length2 temps - 1 do
+               yield { Min = daymin day
+                       Max = daymax day
+                       Average = dayaverage day } |]
     
     let createTimeStat = 
-        [| for time = 0 to temps.[0, *].Length - 1 do
-               yield { Min = Yearmin time
-                       Max = Yearmax time
-                       Average = Yearaverage time } |]
-    
-    let arr = [| 1..10 |]
-    let list = [ 1..10 ]
-    let seq = { 1..10 }
-    
-    type Ramin = 
-        { Id : int
-          Alder : int }
-    
-    let ram = 
-        { Id = 1
-          Alder = 24 }
-    
-    let eldreRam = {ram with Alder = 23}
+        [| for time = 0 to Array2D.length1 temps - 1 do
+               yield { Min = yearmin time
+                       Max = yearmax time
+                       Average = yearaverage time } |]
 
-
-
-module Test = 
-    open Data
-    open Statistikk
-    
-    //let res1 = temps 
-    //let row1 = temps.[1,*]
-    //let row1Col2 = temps.[1,2]
-    let res = Yearaverage 1
-    let maks = Yearmax 1
-    let minn = Yearmin 1
-    let resday = Dayaverage 1
-    let resmaks = Daymax 1
-    let resmin = Daymin 1
