@@ -3,17 +3,6 @@
 open TempMeasure
 open FSharp.Charting
 
-open Data
-open Statistikk
-
-//script tests
-let res = yearaverage 1
-let maks = yearmax 1
-let minn = yearmin 1
-let resday = dayaverage 1
-let resmaks = daymax 1
-let resmin = daymin 1
-
 let year = Statistikk.createDayStat 
 let days = Statistikk.createTimeStat  
 
