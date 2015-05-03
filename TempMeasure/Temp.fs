@@ -1,6 +1,7 @@
 ﻿namespace TempMeasure
 
 open System
+open System.Drawing
 
 module Types = 
     type Stat = 
@@ -35,3 +36,21 @@ module Statistikk =
                        Max = yearmax time
                        Average = yearaverage time } |]
 
+module Charting = 
+    open FSharp.Charting
+    open Types
+    
+    let chartLine title xaxis yaxis legend (data : float array) = 
+        Chart.Line(data, legend)
+        |> Chart.WithTitle(Text = title, InsideArea = false)
+        |> Chart.WithXAxis(Title = xaxis, Min = 0.0)
+        |> Chart.WithYAxis(Title = yaxis)
+        |> Chart.WithLegend(Title = "Type", InsideArea = true)
+    
+    let chartList title xaxis yaxis (data : (float array * string) array) = 
+        data
+        |> Array.map (fun (arr, legend) -> chartLine title xaxis yaxis legend arr)
+        |> Chart.Combine
+        |> Chart.WithTitle(Text = title, InsideArea = false)
+        |> Chart.WithXAxis(Title = xaxis, Min = 0.0)
+        |> Chart.WithYAxis(Title = yaxis)
